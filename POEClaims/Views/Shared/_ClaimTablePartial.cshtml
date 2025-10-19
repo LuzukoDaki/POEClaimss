@@ -1,0 +1,63 @@
+﻿﻿
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Claim ID</th>
+            <th>Module ID</th>
+            <th>Sessions</th>
+            <th>Hours</th>
+            <th>Rate</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Submitted Date</th>
+            <th>Submitted Time</th>
+            <th>Pre-approved Date</th>
+            <th>Pre-approved Time</th>
+            <th>Finalized Date</th>
+            <th>Document</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model == null || !Model.Any())
+        {
+            <tr>
+                <td colspan="14" class="text-center text-muted">No claims available</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var claim in Model)
+            {
+                <tr>
+                    <td>@claim.ClaimId</td>
+                    <td>@claim.ModuleId</td>
+                    <td>@claim.Sessions</td>
+                    <td>@claim.Hours</td>
+                    <td>@claim.Rate</td>
+                    <td>@claim.TotalAmount</td>
+                    <td>
+                        <span class="badge
+                                    @(claim.Status == "Approved" ? "bg-success" :
+                                                            claim.Status == "Pre-approved" ? "bg-info" : "bg-warning")">
+                    @claim.Status
+                </span>
+            </td>
+            <td>@claim.SubmittedDate.ToString("yyyy-MM-dd")</td>
+            <td>@claim.SubmittedTime</td>
+            <td>@(claim.PreApprovedDate?.ToString("yyyy-MM-dd") ?? "-")</td>
+            <td>@(string.IsNullOrEmpty(claim.PreApprovedTime) ? "-" : claim.PreApprovedTime)</td>
+            <td>@(claim.FinalizedDate?.ToString("yyyy-MM-dd") ?? "-")</td>
+            <td>
+                <a href="/documents/@claim.Document" target="_blank">@claim.Document</a>
+            </td>
+            <td>
+                <a asp-action="Preview" asp-route-id="@claim.ClaimId" class="btn btn-primary btn-sm">Preview</a>
+                <a asp-action="Reject" asp-route-id="@claim.ClaimId" class="btn btn-danger btn-sm">Reject</a>
+            </td>
+        </tr>
+                }
+        }
+    </tbody>
+</table>

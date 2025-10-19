@@ -1,0 +1,59 @@
+﻿@model POEClaim.Models.Claim
+
+@{
+    ViewData["Title"] = "Submit Claim";
+}
+
+@Html.Partial("_Menu")
+
+<h1 style="text-align:center; color: gray;">ACA Claim Submission</h1>
+
+<form asp-action="Submit" asp-controller="Claim" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="FacultyName"></label>
+        <input asp-for="FacultyName" class="form-control" />
+        <span asp-validation-for="FacultyName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ModuleName"></label>
+        <input asp-for="ModuleName" class="form-control" />
+        <span asp-validation-for="ModuleName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Sessions"></label>
+        <input asp-for="Sessions" class="form-control" />
+        <span asp-validation-for="Sessions" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Hours"></label>
+        <input asp-for="Hours" class="form-control" />
+        <span asp-validation-for="Hours" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Rate"></label>
+        <input asp-for="Rate" class="form-control" />
+        <span asp-validation-for="Rate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TotalAmount"></label>
+        <input asp-for="TotalAmount" class="form-control" />
+        <span asp-validation-for="TotalAmount" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DocumentPath"></label>
+        <input type="file" asp-for="DocumentPath" class="form-control" />
+        <span asp-validation-for="DocumentPath" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit ACA Claim</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

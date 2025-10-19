@@ -1,0 +1,84 @@
+﻿﻿@{
+ViewData["Title"] = "Track Claim";
+}
+@Html.Partial("_Menu")
+
+<body>
+
+    <div class="container">
+
+        <div class="table-wrapper">
+            <h2>Claims Summary</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover claims-table">
+                    <thead>
+                        <tr>
+                            <th>Module</th>
+                            <th>Hours</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Submitted Date</th>
+                            <th>Submitted Time</th>
+                            <th>Processed Date</th>
+                            <th>Processed Time</th>
+                            <th>Resolved Date</th>
+                            <th>Resolved By</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>502</td>
+                            <td>12</td>
+                            <td>R2700</td>
+                            <td><button class="status-btn status-pending">Pending</button></td>
+                            <td>2025-09-01</td>
+                            <td>12:00</td>
+                            <td>2025-09-02</td>
+                            <td>09:30</td>
+                            <td>2025-09-05</td>
+                            <td>admin1</td>
+                        </tr>
+                        <tr>
+                            <td>503</td>
+                            <td>15</td>
+                            <td>R3200</td>
+                            <td><button class="status-btn status-approved">Approved</button></td>
+                            <td>2025-09-02</td>
+                            <td>14:00</td>
+                            <td>2025-09-03</td>
+                            <td>11:00</td>
+                            <td>2025-09-06</td>
+                            <td>admin2</td>
+                        </tr>
+                        <tr>
+                            <td>504</td>
+                            <td>10</td>
+                            <td>R2100</td>
+                            <td><button class="status-btn status-rejected">Rejected</button></td>
+                            <td>2025-09-03</td>
+                            <td>15:00</td>
+                            <td>2025-09-04</td>
+                            <td>10:15</td>
+                            <td>2025-09-07</td>
+                            <td>admin3</td>
+                        </tr>
+                        <tr>
+                            <td>505</td>
+                            <td>20</td>
+                            <td>R4000</td>
+                            <td><button class="status-btn status-pending">Pending</button></td>
+                            <td>2025-09-04</td>
+                            <td>16:00</td>
+                            <td>2025-09-05</td>
+                            <td>12:30</td>
+                            <td>2025-09-08</td>
+                            <td>admin4</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</body>

@@ -1,0 +1,735 @@
+﻿﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- <link rel="stylesheet" href="~/css/design.css" /> -->
+
+
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - Claim Tingz</title>
+    <style>
+        /* Dark contrast base */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: black; /* very dark background */
+            color: #f1f1f1; /* light text */
+        }
+
+        /* Container styling */
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        /* Headings */
+        h1, h2, h3 {
+            color: #ffffff;
+        }
+
+        /* Links */
+        a {
+            color: #00bfff; /* bright blue */
+            text-decoration: none;
+        }
+
+            a:hover {
+                text-decoration: underline;
+                color: #1e90ff;
+            }
+
+        /* Buttons */
+        button {
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px 0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+            button:hover {
+                background-color: #00bfff;
+            }
+
+        /* Inputs */
+        input, select {
+            background-color: #1e1e1e;
+            color: #f1f1f1;
+            border: 1px solid #333;
+            padding: 8px;
+            border-radius: 4px;
+            width: 100%;
+            margin: 5px 0 15px 0;
+        }
+
+            input:focus, select:focus {
+                outline: none;
+                border-color: #1e90ff;
+            }
+
+        /* Card-style sections */
+        .card {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0px 2px 8px rgba(0,0,0,0.6);
+        }
+
+        /* Base styles */
+        .lecturer-dashboard * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+        .lecturer-dashboard {
+            background-color: #f8f9fa;
+            color: #2d2d2d;
+            line-height: 1.6;
+        }
+
+        .lecturer-dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header section */
+        .dashboard-header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 16px;
+            margin-bottom: 3rem;
+        }
+
+            .dashboard-header h1 {
+                font-size: 2.8rem;
+                font-weight: 700;
+                margin-bottom: 1.5rem;
+                color: #2d2d2d;
+            }
+
+        .dashboard-intro {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #5a5a5a;
+        }
+
+        /* Workflow section */
+        .workflow {
+            margin-bottom: 3rem;
+        }
+
+        .workflow-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            text-align: center;
+            border-top: 4px solid #2d2d2d;
+        }
+
+            .workflow-card h2 {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+                color: #2d2d2d;
+            }
+
+            .workflow-card p {
+                color: #6b7280;
+                font-size: 1.1rem;
+                line-height: 1.7;
+            }
+
+        /* Services section */
+        .services-section {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+            .services-section h2 {
+                font-size: 2.2rem;
+                font-weight: 700;
+                margin-bottom: 1rem;
+                color: #2d2d2d;
+            }
+
+            .services-section p {
+                font-size: 1.1rem;
+                max-width: 700px;
+                margin: 0 auto 3rem;
+                color: #5a5a5a;
+            }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+            .service-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+            }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #2d2d2d;
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #2d2d2d;
+        }
+
+        .service-card p {
+            color: #6b7280;
+            font-size: 1rem;
+        }
+
+        /* CTA section */
+        .cta-section {
+            text-align: center;
+            padding: 3rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 16px;
+            margin-bottom: 3rem;
+        }
+
+            .cta-section h2 {
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+                color: #2d2d2d;
+            }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: #2d2d2d;
+            color: white;
+        }
+
+            .btn-primary:hover {
+                background-color: #1a1a1a;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #2d2d2d;
+            border: 2px solid #2d2d2d;
+        }
+
+            .btn-secondary:hover {
+                background-color: #2d2d2d;
+                color: white;
+                transform: translateY(-2px);
+            }
+
+        .lecturer-dashboard hr {
+            border: none;
+            height: 1px;
+            background-color: #e5e7eb;
+            margin: 3rem 0;
+        }
+
+        /* Base styles */
+        .lecturer-dashboard * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+
+        .lecturer-dashboard {
+            background-color: #333333; /* dark gray */
+            color: #ffffff; /* changed to white so text is readable */
+            line-height: 1.6;
+        }
+
+
+
+        .lecturer-dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header section */
+        .dashboard-header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 16px;
+            margin-bottom: 3rem;
+        }
+
+            .dashboard-header h1 {
+                font-size: 2.8rem;
+                font-weight: 700;
+                margin-bottom: 1.5rem;
+                color: #2d2d2d;
+            }
+
+        .dashboard-intro {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #5a5a5a;
+        }
+
+        /* Workflow section */
+        .workflow {
+            margin-bottom: 3rem;
+        }
+
+        .workflow-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            text-align: center;
+            border-top: 4px solid #2d2d2d;
+        }
+
+            .workflow-card h2 {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+                color: #2d2d2d;
+            }
+
+            .workflow-card p {
+                color: #6b7280;
+                font-size: 1.1rem;
+                line-height: 1.7;
+            }
+
+        /* Services section */
+        .services-section {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+            .services-section h2 {
+                font-size: 2.2rem;
+                font-weight: 700;
+                margin-bottom: 1rem;
+                color: #2d2d2d;
+            }
+
+            .services-section p {
+                font-size: 1.1rem;
+                max-width: 700px;
+                margin: 0 auto 3rem;
+                color: #5a5a5a;
+            }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+            .service-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+            }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #2d2d2d;
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #2d2d2d;
+        }
+
+        .service-card p {
+            color: #6b7280;
+            font-size: 1rem;
+        }
+
+        /* CTA section */
+        .cta-section {
+            text-align: center;
+            padding: 3rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 16px;
+            margin-bottom: 3rem;
+        }
+
+            .cta-section h2 {
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+                color: #2d2d2d;
+            }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: #2d2d2d;
+            color: white;
+        }
+
+            .btn-primary:hover {
+                background-color: #1a1a1a;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #2d2d2d;
+            border: 2px solid #2d2d2d;
+        }
+
+            .btn-secondary:hover {
+                background-color: #2d2d2d;
+                color: white;
+                transform: translateY(-2px);
+            }
+
+        .lecturer-dashboard hr {
+            border: none;
+            height: 1px;
+            background-color: #e5e7eb;
+            margin: 3rem 0;
+        }
+
+        /* Base reset YA NEW ONE*/
+        .lecturer-dashboard * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        /* Dashboard container */
+        .lecturer-dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #f8f9fa;
+            color: #2d2d2d;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .dashboard-header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            margin-bottom: 3rem;
+        }
+
+            .dashboard-header h1 {
+                font-size: 2.5rem;
+                font-weight: 700;
+                margin-bottom: 1rem;
+                color: #2d2d2d;
+            }
+
+        .dashboard-intro {
+            font-size: 1.1rem;
+            max-width: 750px;
+            margin: 0 auto;
+            color: #5a5a5a;
+        }
+
+        /* Services */
+        .services-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+            .services-section h2 {
+                font-size: 2rem;
+                font-weight: 700;
+                margin-bottom: 1rem;
+                color: #2d2d2d;
+            }
+
+            .services-section p {
+                font-size: 1rem;
+                max-width: 700px;
+                margin: 0 auto 2rem;
+                color: #5a5a5a;
+            }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .service-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 1.8rem;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .service-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .service-card h3 {
+                font-size: 1.3rem;
+                margin-bottom: 0.8rem;
+                color: #2d2d2d;
+            }
+
+            .service-card p {
+                font-size: 0.95rem;
+                color: #6b7280;
+            }
+
+        /* Workflow */
+        .workflow {
+            margin-bottom: 3rem;
+        }
+
+        .workflow-card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
+            text-align: center;
+            border-top: 4px solid #2d2d2d;
+        }
+
+            .workflow-card h2 {
+                font-size: 1.6rem;
+                margin-bottom: 1rem;
+                color: #2d2d2d;
+            }
+
+            .workflow-card p {
+                font-size: 1rem;
+                color: #6b7280;
+                line-height: 1.6;
+            }
+
+        /* Divider */
+        .lecturer-dashboard hr {
+            border: none;
+            height: 1px;
+            background-color: #e5e7eb;
+            margin: 2.5rem 0;
+        }
+
+        /* Gray cards for Claim, Tracking, Security */
+        .gray-card {
+            background-color: #e0e0e0; /* light gray */
+            color: #2d2d2d;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+        }
+
+            .gray-card h3 {
+                color: #1a1a1a;
+            }
+
+            .gray-card p {
+                color: #333333;
+            }
+
+            .gray-card:hover {
+                background-color: #bfbfbf; /* slightly darker gray on hover */
+                transform: translateY(-5px);
+                box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+            }
+
+        /* pc and pm button*/
+        .gray-btn {
+            background-color: #888888; /* gray */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+            .gray-btn:hover {
+                background-color: #666666; /* darker gray on hover */
+            }
+
+        /* lecturer button*/
+        .gray-btn {
+            background-color: #888888; /* gray */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+            .gray-btn:hover {
+                background-color: #666666; /* darker gray on hover */
+                /* track claim */
+
+                lang ="en"> <head> <meta charset="UTF-8"> <title>Claims Table</title> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> <style> body
+
+        {
+            background-color: #f1f4f8;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 40px 20px;
+        }
+
+        .table-wrapper {
+            background: #fff;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+
+        .claims-table th,
+        .claims-table td {
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .claims-table thead {
+            background-color: #f8f9fa;
+        }
+
+        .status-btn {
+            pointer-events: none;
+            border: none;
+            padding: 0.3rem 0.75rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 20px;
+            cursor: default;
+        }
+
+        .status-pending {
+            background-color: #ffe69c;
+            color: #856404;
+        }
+
+        .status-approved {
+            background-color: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-rejected {
+            background-color: #f8d7da;
+            color: #842029;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        font-size: 1.5rem;
+        }
+        }
+    </style>
+</head>
+
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        @RenderBody()
+    </div>
+
+    @RenderSection("Scripts", required: false)
+
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+﻿﻿@{
+ViewData["Title"] = "Privacy Policy";
+}
+
+
+@if (ViewBag.role == "Lecturer")
+{
+    <p> hello Lecturer</p>
+}
+@if (ViewBag.role == "Program coordinator")
+{
+    <p> hello Program coordinator</p>
+}
+
+@if (ViewBag.role == "Project Manager")
+{
+    <p> hello Project Manager</p>
+}
+@Html.Partial("_Menu")
