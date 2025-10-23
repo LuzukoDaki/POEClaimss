@@ -8,7 +8,7 @@
 
 <h1 style="text-align:center; color: gray;">ACA Claim Submission</h1>
 
-<form asp-action="Submit" asp-controller="Claim" method="post" enctype="multipart/form-data">
+<form asp-action="Submit" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="FacultyName"></label>
         <input asp-for="FacultyName" class="form-control" />
@@ -40,18 +40,11 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="TotalAmount"></label>
-        <input asp-for="TotalAmount" class="form-control" />
-        <span asp-validation-for="TotalAmount" class="text-danger"></span>
+        <label>Upload Supporting Document (pdf/docx/xlsx, max 5MB)</label>
+        <input type="file" name="Document" class="form-control" accept=".pdf,.docx,.xlsx" />
     </div>
 
-    <div class="form-group">
-        <label asp-for="DocumentPath"></label>
-        <input type="file" asp-for="DocumentPath" class="form-control" />
-        <span asp-validation-for="DocumentPath" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Submit ACA Claim</button>
+    <button type="submit" class="btn btn-primary mt-3">Submit AcA Claim</button>
 </form>
 
 @section Scripts {

@@ -2,20 +2,11 @@
 
 namespace POEClaim.Models
 {
-    public class login
+    public class Register
     {
-        [Required]
-        public string name { get; set; }
-
-        [Required]
+        public string name { get; set; } // Changed from int to string
         public string surname { get; set; }
-
-        [Required]
-        [EmailAddress]
         public string email { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
         public string password { get; set; }
     }
 }

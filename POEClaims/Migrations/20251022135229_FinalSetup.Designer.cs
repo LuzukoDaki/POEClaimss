@@ -12,8 +12,8 @@ using POEClaim.Data;
 namespace POEClaims.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251019102549_AddDocumentPath")]
-    partial class AddDocumentPath
+    [Migration("20251022135229_FinalSetup")]
+    partial class FinalSetup
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,14 +27,13 @@ namespace POEClaims.Migrations
 
             modelBuilder.Entity("POEClaim.Models.Claim", b =>
                 {
-                    b.Property<int>("ClaimID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClaimID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("DocumentPath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FacultyName")
@@ -60,7 +59,7 @@ namespace POEClaims.Migrations
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("ClaimID");
+                    b.HasKey("Id");
 
                     b.ToTable("Claims");
                 });

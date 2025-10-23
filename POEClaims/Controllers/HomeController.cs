@@ -20,19 +20,20 @@ namespace POEClaim.Controllers
         public IActionResult Index()
         {
             // Create table when first loading registration page
-            sql_query creates = new sql_query();
-            creates.create_table();
+            all_queries creates = new all_queries();
+            creates.creates_table();
 
             return View();
         }
 
         [HttpPost]
-        public IActionResult Index(register_user user)
+        public IActionResult Index(Register user)
+
         {
             if (ModelState.IsValid)
             {
-                sql_query get_values = new sql_query();
-                get_values.store_user(user.name, user.age);
+                all_queries get_values = new all_queries();
+                get_values.search_user(user.name, user.surname, user.email, user.password);
             }
 
             return View(user);
@@ -53,8 +54,9 @@ namespace POEClaim.Controllers
         {
             if (ModelState.IsValid)
             {
-                sql_query check = new sql_query();
-                bool found = check.login_user(Log.name, Log.age);
+                all_queries check = new all_queries();
+                bool found = check.search_user(Log.name, Log.surname, Log.email, Log.password);
+
 
                 if (found)
                 {

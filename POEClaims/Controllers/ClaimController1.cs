@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 using POEClaim.Data;
 using POEClaim.Models;
+using Claim = POEClaim.Models.Claim;
 
 namespace POEClaim.Controllers
 {
@@ -16,7 +18,7 @@ namespace POEClaim.Controllers
         [HttpGet]
         public IActionResult Submit()
         {
-            return View();
+            return View("Submit");
         }
 
         [HttpPost]
@@ -24,36 +26,19 @@ namespace POEClaim.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Handle file upload
-                if (Request.Form.Files.Count > 0)
-                {
-                    var file = Request.Form.Files[0];
-                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-
-                    if (!Directory.Exists(uploadsFolder))
-                        Directory.CreateDirectory(uploadsFolder);
-
-                    var filePath = Path.Combine(uploadsFolder, file.FileName);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-
-                    claim.DocumentPath = "/uploads/" + file.FileName;
-                }
-
+                // your file upload logic
                 _context.Claims.Add(claim);
                 _context.SaveChanges();
-
                 return RedirectToAction("Success");
             }
 
-            return View(claim);
+            return View("Submit", claim);
         }
 
         public IActionResult Success()
         {
-            return View(); // Create Success.cshtml with a simple "Claim submitted" message
+            return View("Success");
         }
+
     }
 }
