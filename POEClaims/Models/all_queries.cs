@@ -159,5 +159,52 @@ namespace POEClaim.Models
         {
             // Implement if you want to track logins; leave empty or remove for now
         }
+
+        public List<Claim> GetAllClaims()
+        {
+            List<Claim> claims = new List<Claim>();
+
+            try
+            {
+                using (SqlConnection connect = new SqlConnection(connection))
+                {
+                    connect.Open();
+
+                    string query = @"SELECT Id, FacultyName, ModuleName, Sessions, Hours, Rate, TotalAmount, DocumentPath, SubmissionDate 
+                             FROM claims"; // make sure table name matches your DB
+
+                    using (SqlCommand cmd = new SqlCommand(query, connect))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Claim claim = new Claim
+                            {
+                                Id = Convert.ToInt32(reader["Id"]),
+                                FacultyName = reader["FacultyName"].ToString(),
+                                ModuleName = reader["ModuleName"].ToString(),
+                                Sessions = Convert.ToInt32(reader["Sessions"]),
+                                Hours = Convert.ToInt32(reader["Hours"]),
+                                Rate = Convert.ToDecimal(reader["Rate"]),
+                                TotalAmount = Convert.ToDecimal(reader["TotalAmount"]),
+                                DocumentPath = reader["DocumentPath"].ToString(),
+                                SubmissionDate = Convert.ToDateTime(reader["SubmissionDate"])
+                            };
+
+                            claims.Add(claim);
+                        }
+                    }
+
+                    connect.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error retrieving claims: " + ex.Message);
+            }
+
+            return claims;
+        }
+
     }
 }

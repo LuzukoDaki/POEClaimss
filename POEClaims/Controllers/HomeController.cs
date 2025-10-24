@@ -25,19 +25,47 @@ namespace POEClaim.Controllers
 
             return View();
         }
-
-        [HttpPost]
-        public IActionResult Index(Register user)
-
+[HttpPost]
+public IActionResult Register(Register user)
+{
+    if (ModelState.IsValid)
+    {
+        if (string.IsNullOrWhiteSpace(user.name) ||
+            string.IsNullOrWhiteSpace(user.surname) ||
+            string.IsNullOrWhiteSpace(user.email) ||
+            string.IsNullOrWhiteSpace(user.password))
         {
-            if (ModelState.IsValid)
+            ViewBag.RegisterError = "All fields are required.";
+            return View("Index");
+        }
+
+        try
+        {
+            all_queries db = new all_queries();
+
+            // Optional: check if user already exists
+            bool exists = db.search_user(user.name, user.surname, user.email, user.password);
+            if (exists)
             {
-                all_queries get_values = new all_queries();
-                get_values.search_user(user.name, user.surname, user.email, user.password);
+                ViewBag.RegisterError = "User already exists.";
+                return View("Index");
             }
 
-            return View(user);
+            db.store_user(user.name, user.surname, user.email, user.password);
+
+            ViewBag.RegisterSuccess = "Account created successfully! You can now login.";
+            return View("Index");
         }
+        catch (Exception ex)
+        {
+            ViewBag.RegisterError = "Error creating account: " + ex.Message;
+            return View("Index");
+        }
+    }
+
+    return View("Index");
+}
+
 
         // ------------------- LOGIN SECTION -------------------
 
@@ -50,28 +78,48 @@ namespace POEClaim.Controllers
         }
 
         [HttpPost]
-        public IActionResult Privacy(login Log)
+        public IActionResult Login(string Name, string Surname, string Email, string Password, string Role)
         {
-            if (ModelState.IsValid)
+            // Validate input
+            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Surname) || string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
             {
-                all_queries check = new all_queries();
-                bool found = check.search_user(Log.name, Log.surname, Log.email, Log.password);
-
-
-                if (found)
-                {
-                    // Redirect to Welcome page after successful login
-                    return RedirectToAction("Welcome", "Home");
-                }
-                else
-                {
-                    // Display an error message or stay on same view
-                    ViewBag.LoginError = "User not found. Please check your credentials.";
-                }
+                ViewBag.LoginError = "All fields are required.";
+                return View("Index");
             }
 
-            return View(Log);
+            // Use your all_queries class to check user
+            all_queries check = new all_queries();
+            bool userExists = check.search_user(Name, Surname, Email, Password);
+
+            if (!userExists)
+            {
+                ViewBag.LoginError = "Invalid login credentials.";
+                return View("Index");
+            }
+
+            // Redirect based on role
+            switch (Role)
+            {
+                case "Lecturer":
+                    HttpContext.Session.SetString("UserRole", "Lecturer"); // store role in session
+                    HttpContext.Session.SetString("UserEmail", Email); // store their email
+                    return RedirectToAction("Lecturer", "Home");
+
+                case "Project_Manager":
+                    HttpContext.Session.SetString("UserRole", "PC"); // store as PC
+                    return RedirectToAction("Project_Manager", "Home");
+
+                case "Program_coordinator":
+                    HttpContext.Session.SetString("UserRole", "AM"); // store as AM
+                    return RedirectToAction("Program_coordinator", "Home");
+
+                default:
+                    ViewBag.LoginError = "Invalid role selected.";
+                    return View("Index");
+            }
         }
+
+
 
         // ------------------- GENERAL PAGES -------------------
 

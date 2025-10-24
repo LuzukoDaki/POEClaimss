@@ -1,0 +1,97 @@
+﻿@model List<POEClaim.Models.Claim>
+
+@{
+    ViewData["Title"] = "All Claims";
+}
+
+<h2 style="text-align: center; margin-top: 20px;">📋 All Submitted Claims</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p style="text-align:center; color: red; font-weight: bold;">No claims found in the system.</p>
+}
+else
+{
+    <table style="width:100%; border-collapse: collapse; margin-top:20px;">
+        <thead>
+            <tr style="background-color:#007bff; color:white; text-align:left;">
+
+                <th style="padding:10px; border:1px solid #ddd;">Actions</th>
+
+
+                <th style="padding:10px; border:1px solid #ddd;">ID</th>
+                <th style="padding:10px; border:1px solid #ddd;">Faculty Name</th>
+                <th style="padding:10px; border:1px solid #ddd;">Module Name</th>
+                <th style="padding:10px; border:1px solid #ddd;">Sessions</th>
+                <th style="padding:10px; border:1px solid #ddd;">Hours</th>
+                <th style="padding:10px; border:1px solid #ddd;">Rate</th>
+                <th style="padding:10px; border:1px solid #ddd;">Total Amount</th>
+                <th style="padding:10px; border:1px solid #ddd;">Document</th>
+                <th style="padding:10px; border:1px solid #ddd;">Submission Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var claim in Model)
+            {
+                <tr>
+
+                    <!-- Role-based action buttons -->
+                    <td style="padding:10px; border:1px solid #ddd;">
+                        @* Check the user role stored in ViewBag or your login system *@
+                        @if (ViewBag.UserRole == "PC")
+                        {
+                            <form method="post" asp-action="VerifyClaim" asp-controller="Claim" style="display:inline;">
+                                <input type="hidden" name="claimId" value="@claim.Id" />
+                                <button type="submit" style="margin-right:5px;">✅ Verify</button>
+                            </form>
+                            <form method="post" asp-action="RejectClaim" asp-controller="Claim" style="display:inline;">
+                                <input type="hidden" name="claimId" value="@claim.Id" />
+                                <button type="submit" style="margin-right:5px;">❌ Reject</button>
+                            </form>
+                        }
+                        else if (ViewBag.UserRole == "AM")
+                        {
+                            <form method="post" asp-action="ApproveClaim" asp-controller="Claim" style="display:inline;">
+                                <input type="hidden" name="claimId" value="@claim.Id" />
+                                <button type="submit" style="margin-right:5px;">✅ Approve</button>
+                            </form>
+                            <form method="post" asp-action="RejectClaim" asp-controller="Claim" style="display:inline;">
+                                <input type="hidden" name="claimId" value="@claim.Id" />
+                                <button type="submit" style="margin-right:5px;">❌ Reject</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span style="color: gray;">No actions available</span>
+                        }
+                    </td>
+
+                    <td style="padding:10px; border:1px solid #ddd;">@claim.Id</td>
+                    <td style="padding:10px; border:1px solid #ddd;">@claim.FacultyName</td>
+                    <td style="padding:10px; border:1px solid #ddd;">@claim.ModuleName</td>
+                    <td style="padding:10px; border:1px solid #ddd;">@claim.Sessions</td>
+                    <td style="padding:10px; border:1px solid #ddd;">@claim.Hours</td>
+                    <td style="padding:10px; border:1px solid #ddd;">R @claim.Rate</td>
+                    <td style="padding:10px; border:1px solid #ddd; font-weight:bold;">R @claim.TotalAmount</td>
+                    <td style="padding:10px; border:1px solid #ddd;">
+                        @if (!string.IsNullOrEmpty(claim.DocumentPath))
+                        {
+                            <a href="@claim.DocumentPath" target="_blank">View Document</a>
+                        }
+                        else
+                        {
+                            <span>No Document</span>
+                        }
+                    </td>
+                    <td style="padding:10px; border:1px solid #ddd;">@claim.SubmissionDate.ToShortDateString()</td>
+
+                    <!-- Actions column -->
+                    <td style="padding:10px; border:1px solid #ddd;">
+                        @* Buttons for PC / AM will go here, depending on role *@
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}

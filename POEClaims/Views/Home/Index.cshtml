@@ -332,6 +332,13 @@
             <p>Secure access for academic staff and administrators. Secure claim processing.</p>
 
         </header>
+        <div class="cta-buttons" style="margin-top: 2rem;">
+            <a href="@Url.Action("Index", "Claim")" class="btn btn-primary">
+                View All Claims
+            </a>
+        </div>
+
+
 
         <!-- Client logos -->
         <section class="clients">
@@ -356,7 +363,10 @@
             <h2>ACA Access Portal</h2>
 
             <p style="text-align: center; font-weight: bold; color: black;">
-                Please enter your registration details or log in if you have an account
+                Please enter your registration details to create an account, or log in if you already have one.<br>
+                After registering, click the "Login" button to access your account.<br>
+                You cannot log in without registering first.<br>
+                Please ensure your login details are correct; invalid credentials will not be accepted.
             </p>
 
 
@@ -366,7 +376,7 @@
             </div>
 
             <!-- Registration Form -->
-            <form id="registerForm" class="user-form active" onsubmit="return handleRegister(event);">
+            <form id="registerForm" class="user-form active" asp-controller="Home" asp-action="Register" method="post">
                 <div class="form-group">
                     <label for="regName">Name:</label>
                     <input type="text" id="regName" name="Name" placeholder="Enter your name" required />
@@ -393,7 +403,10 @@
             </form>
 
             <!-- Login Form -->
-            <form id="loginForm" class="user-form" onsubmit="return false;">
+            <form id="loginForm" class="user-form" asp-controller="Home" asp-action="Login" method="post">
+
+                <input type="hidden" id="RoleInput" name="Role" />
+
                 <div class="form-group">
                     <label for="loginName">Name:</label>
                     <input type="text" id="loginName" name="Name" placeholder="Enter your name" required />
@@ -415,19 +428,23 @@
                 </div>
 
                 <div class="role-buttons">
-                    <button type="button" class="role-btn" onclick="validateLogin('@Url.Action("Lecturer", "Home")')">
+                    <input type="hidden" name="Role" id="RoleInput" />
+
+                    <button type="submit" class="role-btn" onclick="setRole('Lecturer')">
                         Login as Lecturer
                     </button>
-                    <button type="button" class="role-btn" onclick="validateLogin('@Url.Action("Project_Manager", "Home")')">
+                    <button type="submit" class="role-btn" onclick="setRole('Project_Manager')">
                         Login as Project Manager
                     </button>
-                    <button type="button" class="role-btn" onclick="validateLogin('@Url.Action("Program_coordinator", "Home")')">
+                    <button type="submit" class="role-btn" onclick="setRole('Program_coordinator')">
                         Login as Program Coordinator
                     </button>
                 </div>
 
-                <p id="loginMessage"></p>
+
+                <p id="loginMessage">@ViewBag.LoginError</p>
             </form>
+
         </section>
     </div>
 
@@ -484,6 +501,13 @@
             message.textContent = "";
             window.location.href = redirectUrl;
         }
+
+               
+        function setRole(role) {
+            document.getElementById('RoleInput').value = role;
+        }
+    </script>
+
     </script>
 </body>
 </html>

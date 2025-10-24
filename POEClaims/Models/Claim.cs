@@ -30,5 +30,11 @@ namespace POEClaim.Models
         public string? DocumentPath { get; set; }
 
         public DateTime SubmissionDate { get; set; } = DateTime.Now;
+
+        public string Email { get; set; } = string.Empty; // Lecturer email who submitted the claim
+
+        public string Status { get; set; } = "Pending"; // default status
+
+
     }
 }
