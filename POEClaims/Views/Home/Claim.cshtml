@@ -1,0 +1,36 @@
+﻿@model List<POEClaim.Models.Claim>
+
+<h2>Claims</h2>
+
+@if (Model != null && Model.Count > 0)
+{
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Faculty</th>
+                <th>Module</th>
+                <th>Sessions</th>
+                <th>Hours</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var claim in Model)
+            {
+                <tr>
+                    <td>@claim.FacultyName</td>
+                    <td>@claim.ModuleName</td>
+                    <td>@claim.Sessions</td>
+                    <td>@claim.Hours</td>
+                    <td>@claim.TotalAmount</td>
+                    <td>@(claim.Status ?? "Pending")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No claims found in the system.</p>
+}

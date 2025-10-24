@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36414.22 d17.14
+VisualStudioVersion = 17.14.36414.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POEClaims", "POEClaims\POEClaims.csproj", "{9344E0AB-DE63-4DCE-92E6-E0B6161552BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProjectClaim", "TestProjectClaim\TestProjectClaim.csproj", "{96490D93-1871-4046-8E79-8369B634AAAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{9344E0AB-DE63-4DCE-92E6-E0B6161552BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9344E0AB-DE63-4DCE-92E6-E0B6161552BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9344E0AB-DE63-4DCE-92E6-E0B6161552BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96490D93-1871-4046-8E79-8369B634AAAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96490D93-1871-4046-8E79-8369B634AAAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96490D93-1871-4046-8E79-8369B634AAAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96490D93-1871-4046-8E79-8369B634AAAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

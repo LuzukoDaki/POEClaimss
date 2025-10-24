@@ -100,6 +100,18 @@ namespace POEClaim.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public IActionResult ApproveClaim(int claimId)
+        {
+            var claim = _context.Claims.Find(claimId);
+            if (claim != null)
+            {
+                claim.Status = "Approved"; // requires Status property in Claim model
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
 
     }
 }
