@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 
 namespace POEClaim.Models
 {
@@ -169,9 +168,11 @@ namespace POEClaim.Models
                 using (SqlConnection connect = new SqlConnection(connection))
                 {
                     connect.Open();
-
-                    string query = @"SELECT Id, FacultyName, ModuleName, Sessions, Hours, Rate, TotalAmount, DocumentPath, SubmissionDate 
-                             FROM claims"; // make sure table name matches your DB
+                    string query = @"
+SELECT Id, FacultyName, ModuleName, Sessions, Hours, Rate, TotalAmount,
+       DocumentPath, SubmissionDate, Status, Email
+FROM claims";
+                    // make sure table name matches your DB
 
                     using (SqlCommand cmd = new SqlCommand(query, connect))
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -188,7 +189,9 @@ namespace POEClaim.Models
                                 Rate = Convert.ToDecimal(reader["Rate"]),
                                 TotalAmount = Convert.ToDecimal(reader["TotalAmount"]),
                                 DocumentPath = reader["DocumentPath"].ToString(),
-                                SubmissionDate = Convert.ToDateTime(reader["SubmissionDate"])
+                                SubmissionDate = Convert.ToDateTime(reader["SubmissionDate"]),
+                                Status = reader["Status"].ToString(),     // REQUIRED
+                                Email = reader["Email"].ToString()        // REQUIRED
                             };
 
                             claims.Add(claim);

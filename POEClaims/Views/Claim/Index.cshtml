@@ -4,7 +4,18 @@
     ViewData["Title"] = "All Claims";
 }
 
+@Html.Partial("_Sum")
+
+
 <h2 style="text-align: center; margin-top: 20px;">📋 All Submitted Claims</h2>
+
+@if (TempData["VerificationErrors"] != null)
+{
+    <div style="background:#ffdddd; color:#a00000; padding:10px; border:1px solid red; margin:10px 0;">
+        <strong>Verification failed:</strong> @TempData["VerificationErrors"]
+    </div>
+}
+
 
 @if (Model == null || !Model.Any())
 {
@@ -38,34 +49,42 @@ else
                     <!-- Role-based action buttons -->
 
                     <td style="padding:10px; border:1px solid #ddd;">
-                        @* Role-based actions *@
-                        @if (Context.Session.GetString("UserRole") == "PC")
+                        @{
+                            var role = Context.Session.GetString("UserRole");
+                            var status = claim.Status ?? "Pending";
+                        }
+
+                        @if (role == "AM" && status == "Pending")
                         {
-                            <form method="post" asp-action="VerifyClaim" asp-controller="Claim" style="display:inline;">
+                            <form method="post" asp-action="VerifyClaim" style="display:inline;">
                                 <input type="hidden" name="claimId" value="@claim.Id" />
-                                <button type="submit" style="margin-right:5px;">✅ Verify</button>
+                                <button type="submit">🔎 Verify</button>
                             </form>
-                            <form method="post" asp-action="RejectClaim" asp-controller="Claim" style="display:inline;">
+
+                            <form method="post" asp-action="RejectClaim" style="display:inline;">
                                 <input type="hidden" name="claimId" value="@claim.Id" />
-                                <button type="submit" style="margin-right:5px;">❌ Reject</button>
+                                <button type="submit">❌ Reject</button>
                             </form>
                         }
-                        else if (Context.Session.GetString("UserRole") == "AM")
+                        else if (role == "PC" && status == "Verified")
                         {
-                            <form method="post" asp-action="ApproveClaim" asp-controller="Claim" style="display:inline;">
+                            <form method="post" asp-action="ApproveClaim" style="display:inline;">
                                 <input type="hidden" name="claimId" value="@claim.Id" />
-                                <button type="submit" style="margin-right:5px;">✅ Approve</button>
+                                <button type="submit">✅ Approve</button>
                             </form>
-                            <form method="post" asp-action="RejectClaim" asp-controller="Claim" style="display:inline;">
+
+                            <form method="post" asp-action="RejectClaim" style="display:inline;">
                                 <input type="hidden" name="claimId" value="@claim.Id" />
-                                <button type="submit" style="margin-right:5px;">❌ Reject</button>
+                                <button type="submit">❌ Reject</button>
                             </form>
                         }
                         else
                         {
                             <span style="color: gray;">No actions available</span>
                         }
+
                     </td>
+
 
 
 

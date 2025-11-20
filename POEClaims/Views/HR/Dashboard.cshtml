@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "HR Dashboard";
+}
+
+@Html.Partial("_HRsum")
+
+
+<div class="container mt-5">
+
+    <div class="text-center mb-4">
+        <h1 class="display-5" style="color:#2c3e50; font-weight:700;">
+            Human Resource Management Page
+        </h1>
+        <p class="lead" style="color:#7f8c8d;">
+            Manage lecturer claims, payments, and reporting.
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+
+        <!-- VIEW APPROVED CLAIMS -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm" style="border-radius: 12px;">
+                <div class="card-body text-center">
+                    <h4 class="card-title" style="color:#34495e;">Approved Claims</h4>
+                    <p class="card-text" style="color:#7f8c8d;">
+                        View all claims that have been verified and approved by Program Manager.
+                    </p>
+                    <a href="/HR/ApprovedClaims" class="btn btn-primary btn-lg" style="border-radius: 10px;">
+                        View Approved Claims
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOWNLOAD CSV REPORT -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm" style="border-radius: 12px;">
+                <div class="card-body text-center">
+                    <h4 class="card-title" style="color:#34495e;">Download Report</h4>
+                    <p class="card-text" style="color:#7f8c8d;">
+                        Download a CSV report containing all approved lecturer payment claims.
+                    </p>
+                    <a href="/HR/DownloadApprovedClaimsCSV" class="btn btn-success btn-lg" style="border-radius: 10px;">
+                        Download CSV Report
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

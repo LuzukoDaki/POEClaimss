@@ -9,6 +9,10 @@
 <h1 style="text-align:center; color: gray;">ACA Claim Submission</h1>
 
 <form asp-action="Submit" method="post" enctype="multipart/form-data">
+   
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    
     <div class="form-group">
         <label asp-for="FacultyName"></label>
         <input asp-for="FacultyName" class="form-control" />
@@ -29,24 +33,51 @@
 
     <div class="form-group">
         <label asp-for="Hours"></label>
-        <input asp-for="Hours" class="form-control" />
+        <input asp-for="Hours" id="Hours" class="form-control" />
         <span asp-validation-for="Hours" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="Rate"></label>
-        <input asp-for="Rate" class="form-control" />
+        <input asp-for="Rate" id="Rate" class="form-control" />
         <span asp-validation-for="Rate" class="text-danger"></span>
     </div>
+
+
+    <div class="form-group">
+        <label asp-for="TotalAmount"></label>
+        <input asp-for="TotalAmount" id="TotalAmount" class="form-control" readonly />
+    </div>
+
 
     <div class="form-group">
         <label>Upload Supporting Document (pdf/docx/xlsx, max 5MB)</label>
         <input type="file" name="Document" class="form-control" accept=".pdf,.docx,.xlsx" />
     </div>
 
+ 
     <button type="submit" class="btn btn-primary mt-3">Submit AcA Claim</button>
+
+
 </form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function calculateTotal() {
+            let hours = parseFloat(document.getElementById("Hours").value) || 0;
+            let rate = parseFloat(document.getElementById("Rate").value) || 0;
+
+            let total = hours * rate;
+
+            document.getElementById("TotalAmount").value = total.toFixed(2);
+        }
+
+        document.getElementById("Hours").addEventListener("input", calculateTotal);
+        document.getElementById("Rate").addEventListener("input", calculateTotal);
+
+    
+    </script>
+
 }

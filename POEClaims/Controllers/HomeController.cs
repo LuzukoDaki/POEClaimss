@@ -113,6 +113,11 @@ public IActionResult Register(Register user)
                     HttpContext.Session.SetString("UserRole", "AM"); // store as AM
                     return RedirectToAction("Program_coordinator", "Home");
 
+                case "HR":
+                    HttpContext.Session.SetString("UserRole", "HR");
+                    return RedirectToAction("Dashboard", "HR");
+
+
                 default:
                     ViewBag.LoginError = "Invalid role selected.";
                     return View("Index");
@@ -150,20 +155,7 @@ public IActionResult Register(Register user)
             return View(); // Views/Home/Claim.cshtml
         }
 
-        public IActionResult Track_Claim()
-        {
-            return View(); // Views/Home/Track_Claim.cshtml
-        }
 
-        public IActionResult Pre_Approve()
-        {
-            return View(); // Views/Home/Pre_Approve.cshtml
-        }
-
-        public IActionResult ApproveClaimIndex()
-        {
-            return View(); // Views/Home/ApproveClaimIndex.cshtml
-        }
 
         // ------------------- ERROR HANDLER -------------------
 

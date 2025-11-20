@@ -27,14 +27,59 @@ namespace POEClaim.Controllers
             if (ModelState.IsValid)
             {
 
-                // Assigning the lecturer’s email from session
+                // STRICT VALIDATION — Option A
+
+                if (claim.Hours < 1 || claim.Hours > 40)
+                {
+                    ModelState.AddModelError("Hours", "Hours must be between 1 and 40.");
+                }
+
+                if (claim.Sessions < 1 || claim.Sessions > 20)
+                {
+                    ModelState.AddModelError("Sessions", "Sessions must be between 1 and 20.");
+                }
+
+                if (claim.Rate < 100 || claim.Rate > 500)
+                {
+                    ModelState.AddModelError("Rate", "Rate must be between 100 and 500.");
+                }
+
+                // If validation failed, return form
+                if (!ModelState.IsValid)
+                {
+                    return View("Submit", claim);
+                }
+
+
+                // 1. Automatically calculate Backend TotalAmount
+                claim.TotalAmount = (decimal)claim.Hours * claim.Rate;
+
+                // 2. Attach lecturer email automatically
                 claim.Email = HttpContext.Session.GetString("UserEmail") ?? "";
 
-                // your file upload logic
+                // 3. Handle file upload (if a document was submitted)
+                var file = Request.Form.Files["Document"];
+
+                if (file != null && file.Length > 0)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    var filePath = Path.Combine("wwwroot/uploads", fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+
+                    claim.DocumentPath = "/uploads/" + fileName;
+                }
+
+                // 4. Save claim
                 _context.Claims.Add(claim);
                 _context.SaveChanges();
+
                 return RedirectToAction("Success");
             }
+
 
             return View("Submit", claim);
         }
@@ -60,8 +105,8 @@ namespace POEClaim.Controllers
             {
                 // Optionally filtering to show only the claims submitted by this lecturer
                 // Assuming you have a way to identify lecturer, e.g., email or name in session
-                string lecturerEmail = HttpContext.Session.GetString("UserEmail");
-                allClaims = allClaims.Where(c => c.Email == lecturerEmail).ToList();
+                //string lecturerEmail = HttpContext.Session.GetString("UserEmail");
+                //allClaims = allClaims.Where(c => c.Email == lecturerEmail).ToList();
             }
             else if (userRole == "PC" || userRole == "AM")
             {
@@ -80,13 +125,48 @@ namespace POEClaim.Controllers
         public IActionResult VerifyClaim(int claimId)
         {
             var claim = _context.Claims.Find(claimId);
-            if (claim != null)
+
+            if (claim == null)
+                return RedirectToAction("Index");
+
+            // AUTOMATED POLICY CHECKS (POE Requirement)
+            List<string> errors = new List<string>();
+
+            // 1. Hours
+            if (claim.Hours < 1 || claim.Hours > 40)
+                errors.Add("Hours must be between 1 and 40.");
+
+            // 2. Sessions
+            if (claim.Sessions < 1 || claim.Sessions > 20)
+                errors.Add("Sessions must be between 1 and 20.");
+
+            // 3. Rate
+            if (claim.Rate < 100 || claim.Rate > 500)
+                errors.Add("Rate must be between 100 and 500.");
+
+            // 4. Email must exist
+            if (string.IsNullOrEmpty(claim.Email))
+                errors.Add("Lecturer email is missing.");
+
+            // 5. TotalAmount must match calculation
+            decimal expectedTotal = (decimal)claim.Hours * claim.Rate;
+            if (claim.TotalAmount != expectedTotal)
+                errors.Add("TotalAmount is incorrect.");
+
+            // If ANY failures → DO NOT VERIFY
+            if (errors.Count > 0)
             {
-                claim.Status = "Verified"; // make sure you have a Status property in your Claim model
-                _context.SaveChanges();
+                TempData["VerificationErrors"] = string.Join(" | ", errors);
+                return RedirectToAction("Index");
             }
+
+            // AUTOMATION PASSED → VERIFY CLAIM
+            claim.Status = "Verified";
+            _context.SaveChanges();
+
             return RedirectToAction("Index");
         }
+
 
         [HttpPost]
         public IActionResult RejectClaim(int claimId)
