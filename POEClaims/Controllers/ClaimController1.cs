@@ -166,7 +166,7 @@ namespace POEClaim.Controllers
 
             return RedirectToAction("Index");
         }
-
+        //
 
         [HttpPost]
         public IActionResult RejectClaim(int claimId)
