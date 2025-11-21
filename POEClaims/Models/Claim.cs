@@ -22,7 +22,7 @@ namespace POEClaim.Models
 
         [Required]
         [DataType(DataType.Currency)]
-        public decimal Rate { get; set; }
+        public decimal Rate { get; set; }//
 
         [DataType(DataType.Currency)]
         public decimal TotalAmount { get; set; }
