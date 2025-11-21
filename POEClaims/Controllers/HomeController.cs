@@ -96,7 +96,7 @@ public IActionResult Register(Register user)
                 ViewBag.LoginError = "Invalid login credentials.";
                 return View("Index");
             }
-
+            //
             // Redirect based on role
             switch (Role)
             {
